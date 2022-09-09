@@ -41,16 +41,31 @@ export default {
       this.app.renderer.autoResize = true;
       this.app.renderer.resize(window.innerWidth, window.innerHeight);
 
-      let texture =
-        PIXI.utils.TextureCache[
-          'test1'
-        ];
-      let sprite = new PIXI.Sprite(texture);
+     
+
+      let list = this.imageList.reduce((result,current,index)=>{
+         let texture =
+           PIXI.utils.TextureCache[
+           current.name
+          ];
+          let rectangle = new PIXI.Rectangle(0,0,400,400);
+          let textrue = new PIXI.Texture(texture,rectangle)
+          result.push(textrue)
+          return result
+          
+      },[])
+      let animatedSprite = new PIXI.AnimatedSprite(list)
+      animatedSprite.position.set(0,0);
+      animatedSprite.animationSpeed = 0.1;
+      animatedSprite.play()
+      this.app.stage.addChild(animatedSprite)
       //  let sprite = new PIXI.Sprite.from(this.imageList[10]);
-      sprite.position.set(100, 100);
-      sprite.anchor.set(0.5);
-      console.log(this.loader.resources);
-      this.app.stage.addChild(sprite);
+      // sprite.position.set(100, 100);
+      // sprite.anchor.set(0.5);
+      // console.log(this.loader.resources);
+      
+  
+      // this.app.stage.addChild(sprite);
     },
     pop(event) {
       let mouse_x = event.x,
