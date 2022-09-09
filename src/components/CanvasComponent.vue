@@ -5,12 +5,15 @@
 <script>
 import * as PIXI from "pixi.js";
 import anime from "animejs";
-import A from "@/assets/1.jpg";
-import B from "@/assets/2.jpg";
+
 export default {
   name: "CanvasComponent",
   data() {
     return {
+      imageList:[
+      { name: 'test1', url: 'https://uploads.codesandbox.io/uploads/user/4bd37c15-6b32-410f-8bcf-8c41cf1c3a19/9Rrp-2.jpg', onComplete: function () {} },
+      { name: 'test2', url: 'https://uploads.codesandbox.io/uploads/user/4bd37c15-6b32-410f-8bcf-8c41cf1c3a19/4k4V-1.jpg', onComplete: function () {} },
+      ],
       loader: null,
       app: null,
       colors: ["75F4F4", "90E0F3", "B8B3E9", "D999B9"],
@@ -22,8 +25,11 @@ export default {
   methods: {
     init() {
       this.loader = new PIXI.Loader();
-      this.loader.add(A).load(this.setUp);
+      this.loader.add(this.imageList).load(this.setUp);
       this.loader.onProgress.add((val) => {});
+      this.loader.onError.add((val) => {
+        console.log('error',val)
+      });
     },
     setUp() {
       this.app = new PIXI.Application({
@@ -37,7 +43,7 @@ export default {
 
       let texture =
         PIXI.utils.TextureCache[
-          "https://uploads.codesandbox.io/uploads/user/4bd37c15-6b32-410f-8bcf-8c41cf1c3a19/4k4V-1.jpg"
+          'test1'
         ];
       let sprite = new PIXI.Sprite(texture);
       //  let sprite = new PIXI.Sprite.from(this.imageList[10]);
